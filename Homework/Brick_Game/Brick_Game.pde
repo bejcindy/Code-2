@@ -3,7 +3,7 @@ int w = 50;
 int h = 25; 
 int score=0;
 int life=3;
-int time=0;
+int time=60;
 
 Ball b; 
 Paddle p; 
@@ -39,10 +39,17 @@ void draw(){
   p.display(); 
   p.reset(); 
   
+  if(frameCount%60==0){
+    time--;
+  }
+  if(time==-1){
+    time=60;
+  }
+  
   fill(255);
-  text("Score: "+score,40,40);
-  text("Life: "+life,width-40,40);
-  text("Time"+time,width/2,40);
+  text("Score: "+score,50,height-40);
+  text("Life: "+life,width-50,height-40);
+  text("Time"+time,width/2,height-40);
   
   //making sure our ball stays within the boundaries of our screen 
   if(b.pos.x<= b.size/2 || b.pos.x>= width-b.size/2){
@@ -69,8 +76,10 @@ void draw(){
             // checking to see if ball is within the boundaries of our bricks 
       if(b.pos.x<= (myBricks[i][j].x + myBricks[i][j].w/2) && b.pos.x>= (myBricks[i][j].x - myBricks[i][j].w/2) 
         && b.pos.y<= (myBricks[i][j].y + myBricks[i][j].h/2) && b.pos.y>= (myBricks[i][j].y - myBricks[i][j].h/2)){
-          score++;
-          myBricks[i][j].o = 0;  //just changing the opacity here but you can figure out how to remove the object using an array list 
+          myBricks[i][j].o = 0;  //just changing the opacity here but you can figure out how to remove the object using an array list
+          if(myBricks[i][j].o!=0){
+            score++;
+          }
       }
     }
   }
